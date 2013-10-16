@@ -182,6 +182,13 @@ en:
       "12": "Sent Items"
       "13": "Inbox"
 
+    categories:
+      category: "Category"
+      participants: "Participants"
+      posts: "Posts"
+      topics: "Topics"
+      latest: "Latest"
+
     user:
       said: "{{username}} said:"
       profile: "Profile"
