@@ -7,7 +7,7 @@ require_dependency 'suggested_topics_builder'
 
 class TopicQuery
   # Could be rewritten to %i if Ruby 1.9 is no longer supported
-  VALID_OPTIONS = %w(except_topic_id exclude_category limit page per_page topic_ids visible category).map(&:to_sym)
+  VALID_OPTIONS = %w(except_topic_id exclude_category limit page per_page topic_ids visible category sort_order sort_descending).map(&:to_sym)
 
   class << self
     # use the constants in conjuction with COALESCE to determine the order with regard to pinned
