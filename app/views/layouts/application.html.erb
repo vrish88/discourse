@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= SiteSetting.default_locale %>" class="<%= html_classes %>">
+<html lang="<%= SiteSetting.default_locale %>" class="css-loading">
   <head>
     <meta charset="utf-8">
     <title><%= content_for?(:title) ? yield(:title) + ' - ' + SiteSetting.title : SiteSetting.title %></title>
@@ -23,6 +23,10 @@
     <%= render :partial => "common/special_font_face" %>
     <%= render :partial => "common/discourse_stylesheet" %>
 
+    <style>
+      html.css-loading { display: none; }
+    </style>
+
     <%= discourse_csrf_tags %>
 
     <%= yield :head %>
@@ -32,7 +36,12 @@
     <!--[if IE 9]><script type="text/javascript">ie = "new";</script><![endif]-->
 
     <%- unless customization_disabled? %>
-      <%= SiteCustomization.custom_header(session[:preview_style], mobile_view? ? :mobile : :desktop) %>
+      <div id='custom-desktop-header' style='display: none;'>
+        <%= SiteCustomization.custom_header(session[:preview_style], :desktop) %>
+      </div>
+      <div id='custom-mobile-header' style='display: none;'>
+        <%= SiteCustomization.custom_header(session[:preview_style], :mobile) %>
+      </div>
     <%- end %>
 
     <section id='main'>

@@ -1,15 +1,33 @@
 <%- unless SiteCustomization.override_default_style(session[:preview_style]) %>
-  <% if mobile_view? %>
-    <%= stylesheet_link_tag "mobile" %>
-  <% else %>
-    <%= stylesheet_link_tag "desktop" %>
-  <% end %>
+
+  <script type="text/javascript">
+    (function() {
+      var h = document.getElementsByTagName('html')[0],
+          isMobileView = (localStorage && localStorage.mobileView) ? (localStorage.mobileView === 'true') :
+              Modernizr.mq("only screen and (max-width: 480px), only screen and (max-device-width: 480px)");
+
+      h.className += (isMobileView ? ' mobile-view' : ' desktop-view');
+      Modernizr.load({
+        test: isMobileView,
+        yep:  <%= stylesheet_filenames(:mobile).inspect.html_safe  %>,
+        nope: <%= stylesheet_filenames(:desktop).inspect.html_safe %>,
+        complete: function() {
+          h.className = h.className.replace(/(\s|^)css-loading(\s|$)/g, ' ');
+          $(function() {
+            if (isMobileView) {
+              $('#custom-mobile-header').show();
+            } else {
+              $('#custom-desktop-header').show();
+            }
+            $(window).trigger('scroll.discourse-dock');
+          });
+        }
+      });
+    })();
+  </script>
+
 <%- end %>
 
 <%- if staff? %>
   <%= stylesheet_link_tag "admin"%>
 <%-end%>
-
-<%- unless customization_disabled? %>
-  <%= SiteCustomization.custom_stylesheet(session[:preview_style], mobile_view? ? :mobile : :desktop) %>
-<%- end %>

@@ -7,20 +7,11 @@
 **/
 Discourse.Mobile = {
 
-  isMobileDevice: false,
   mobileView: false,
 
   init: function() {
     var $html = $('html');
-    this.isMobileDevice = $html.hasClass('mobile-device');
     this.mobileView = $html.hasClass('mobile-view');
-
-    if (localStorage && localStorage.mobileView) {
-      var savedValue = (localStorage.mobileView === 'true' ? true : false);
-      if (savedValue !== this.mobileView) {
-        this.reloadPage(savedValue);
-      }
-    }
   },
 
   toggleMobileView: function() {
